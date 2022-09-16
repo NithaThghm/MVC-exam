@@ -12,7 +12,7 @@
 <body>
 <nav class="navbar bg-light">
     <div class="container">
-        <a class="navbar-brand" href="../index.php">Home</a>
+        <a class="navbar-brand" href="/index.php">Home</a>
     </div>
 </nav>
 
