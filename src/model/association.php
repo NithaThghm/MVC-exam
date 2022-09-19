@@ -23,3 +23,31 @@ function addAssociation(PDO $db)
     associationDML($db, $req);
     header('Location: index.php');
 }
+
+function listAssociation(PDO $db)
+{
+    $req = 'SELECT tab1.id, prenom, nom, titre, auteur FROM (SELECT asso.id,id_ouvrage, prenom, nom FROM `association_abonne_ouvrage` asso INNER JOIN abonne ON asso.id_abonne = abonne.id) tab1 INNER JOIN ouvrage ON tab1.id_ouvrage = ouvrage.id; ';
+    $sth = $db->prepare($req);
+    $sth->execute();
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function deleteAssociation(PDO $db)
+{
+    $req = 'DELETE FROM association_abonne_ouvrage WHERE id = :id';
+
+    $id = (isset($_GET['id']) and $_GET['id'] != '') ? $_GET['id'] : null;
+
+    var_dump($id);
+
+    if ($id != null) {
+        $sth = $db->prepare($req);
+        $sth->bindParam(':id', $id);
+        $sth->execute();
+
+        //addMessage('success', 'Patient delete !');
+    } else {
+        //addMessage('danger', 'Erreur lors de la suppression !');
+    }
+    header('Location: liste-association.php?action=search-association');
+}

@@ -37,30 +37,20 @@ function listAbonne(PDO $db)
     return $sth->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function patient(PDO $db)
+function modifyAbo(PDO $db)
 {
-    $id = (isset($_GET['id']) and $_GET['id'] != '') ? $_GET['id'] : null;
-    return querySingle($db, 'SELECT * FROM patients WHERE id =' . $id);
-}
-
-function modifyPatient(PDO $db)
-{
-    $req = 'UPDATE patients
-        SET lastname = :lastname,
-            firstname = :firstname,
-            birthdate = :birthdate,
-            phone = :phone,
-            mail = :mail
+    $req = 'UPDATE abonne
+        SET nom = :lastname,
+            prenom = :firstname
         WHERE id = :id';
     $id = (isset($_GET['id']) and $_GET['id'] != '') ? $_GET['id'] : null;
-    patientDML($db, $req, $id);
-    header('Location: ./view/profil-patient.php?action=patient&id=' . $id);
+    abonneDML($db, $req, $id);
+    header('Location: ./src/views/liste-abonne.php?action=search-abonne');
 }
 
-function deletePatient(PDO $db)
+function deleteAbo(PDO $db)
 {
-    $req = 'DELETE FROM appointments WHERE idPatients = :idPatients';
-    $reqP = 'DELETE FROM patients WHERE id = :id';
+    $req = 'DELETE FROM abonne WHERE id = :id';
 
     $id = (isset($_GET['id']) and $_GET['id'] != '') ? $_GET['id'] : null;
 
@@ -68,18 +58,14 @@ function deletePatient(PDO $db)
 
     if ($id != null) {
         $sth = $db->prepare($req);
-        $sth->bindParam(':idPatients', $id);
-        $sth->execute();
-
-        $sth = $db->prepare($reqP);
         $sth->bindParam(':id', $id);
         $sth->execute();
 
-        addMessage('success', 'Patient delete !');
+        //addMessage('success', 'Patient delete !');
     } else {
-        addMessage('danger', 'Erreur lors de la suppression !');
+        //addMessage('danger', 'Erreur lors de la suppression !');
     }
-    header('Location: index.php');
+    header('Location: liste-abonne.php?action=search-abonne');
 }
 
 function searchPatient(PDO $db)
@@ -115,4 +101,10 @@ function searchPatient(PDO $db)
 function nbPatients(PDO $db)
 {
     return querySingle($db, 'SELECT COUNT(*) AS nb_patients FROM patients');
+}
+
+function patient(PDO $db)
+{
+    $id = (isset($_GET['id']) and $_GET['id'] != '') ? $_GET['id'] : null;
+    return querySingle($db, 'SELECT * FROM patients WHERE id =' . $id);
 }

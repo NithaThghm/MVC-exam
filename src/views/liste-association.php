@@ -8,13 +8,14 @@ var_dump($resultat);?>
             <div class="col-12">
                 <table class="table">
                     <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">nom</th>
-                            <th scope="col">prenom</th>
-                            <th scope="col">editer</th>
-                            <th scope="col">supprimer</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Prenom</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Auteur</th>
+                        <th scope="col">Supprimer</th>
+                    </tr>
                     </thead>
                     <tbody>
                     <?php
@@ -22,12 +23,12 @@ var_dump($resultat);?>
                         foreach ($resultat as $row) { ?>
                             <tr>
                                 <th scope="row"><?= $row['id'] ?></th>
-                                <td><?= $row['nom'] ?></td>
                                 <td><?= $row['prenom'] ?></td>
-                                <td><a href="editer-abo.php?action=get-abo&id=<?= $row['id'] ?>"
-                                   class="btn btn-primary">Editer</a></td>
-                                <td><a href="editer-abo.php?action=delete-abo&id=<?= $row['id'] ?>"
-                                   class="btn btn-danger">Supprimer</a></td>
+                                <td><?= $row['nom'] ?></td>
+                                <td><?= $row['titre'] ?></td>
+                                <td><?= $row['auteur'] ?></td>
+                                <td><a href="editer-abo.php?action=delete-association&id=<?= $row['id'] ?>"
+                                       class="btn btn-danger">Supprimer</a></td>
                             </tr>
                         <?php }
                     }
